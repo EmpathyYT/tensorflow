@@ -18,7 +18,7 @@ from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
-from datetime import datetime
+import time
 model = load_model('chatbot_model.h5')
 import json
 import random
@@ -122,9 +122,11 @@ async def on_message(message):
             return
         if res in anotherlist:
             await message.channel.send(res)
-            await message.channel.send(random.choice([f"The time is {datetime.utcnow()} in UTC",
-                              f"Right now it is {datetime.utcnow()} in UTC",
-                              f"It is around {datetime.utcnow()} in UTC"]))
+            astime = time.gmtime()
+            newtime = time.strftime("%m/%d/%Y, %H:%M:%S", astime)
+            await message.channel.send(random.choice([f"The time is {newtime} in UTC",
+                              f"Right now it is {newtime} in UTC",
+                              f"It is around {newtime} in UTC"]))
             return
         else:
             await message.channel.send(res)
